@@ -1,0 +1,7 @@
+{
+    "id":"1234",
+    "pedidoRe":"referencia a pedido",
+    "motivo":"Arroz con gorgojo",
+    "cantidadDevuelta":1,
+    "fechaDevolucion":"10/21/2024"
+}

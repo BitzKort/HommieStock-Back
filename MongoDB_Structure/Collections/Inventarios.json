@@ -1,0 +1,9 @@
+{
+    "id": "1234",
+    "producto": "Arroz",
+    "UbicacionTienda": "carrera 40 # 40-41 --- seria la ubicacion de la tienda",
+    "stock": 100,
+    "fechaLlegada": "30/10/2024",
+    "fechaUltimActualizacion":"10/11/2024 --- esto seria la fecha de la ultima compra, supongo",
+    "nivelAlertaReposicion": "supongo que es algo numerico"
+}

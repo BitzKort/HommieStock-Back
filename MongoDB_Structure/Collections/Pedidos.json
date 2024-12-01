@@ -1,0 +1,8 @@
+{
+    "id":"1234",
+    "cliente":"Referencia a cliente toca ver que cosas metemos aqui",
+    "producto":"Referencia a producto, toca ver que cosas metemos aqui",
+    "cantidadPedida":12,
+    "estado":"en camino",
+    "fechaPedido":"10/11/2024"
+}
