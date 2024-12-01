@@ -1,0 +1,19 @@
+# Entornos virtuales
+venv/
+env/
+.venv/
+ENV/
+.ENV/
+
+# Archivos creados por el intérprete de Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.pkl
+*.egg-info/
+
+# Archivos de configuración de entornos
+*.env
+*.env.*
+.env.**
