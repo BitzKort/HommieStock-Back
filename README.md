@@ -2,7 +2,6 @@
 
 This is the backend repository of the final proyect for the Nosql course
 
-<<<<<<< HEAD
 ## How to run:
 
 1. Install pipenv (`pip install pipenv`)
@@ -19,4 +18,3 @@ _**notes**_:
 
 *   main
 *   feature/mongodb_structure
->>>>>>> main
