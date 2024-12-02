@@ -1,0 +1,9 @@
+{
+    "id":"1234",
+    "nombre":"juan felipe casallas ruiz",
+    "direccionEnvio":"carrera 40 # 40- 42",
+    "HistorialPedidos": [{
+        "aqui van los pedidos ":"esto podria ser solo el codigo del pedido y ya, sin embargo toca ver si puede ser una tabla aparte"
+    }]
+
+}
