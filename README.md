@@ -2,6 +2,7 @@
 
 This is the backend repository of the final proyect for the Nosql course
 
+<<<<<<< HEAD
 ## How to run:
 
 1. Install pipenv (`pip install pipenv`)
@@ -13,3 +14,9 @@ This is the backend repository of the final proyect for the Nosql course
 _**notes**_: 
 * If you have problems with the mongodb connection, remember to add your IP on the mongo Atlas account (i.e. send your IP to the group in order to add it).
 * Make sure that you are working inside the venv.
+=======
+## Branches
+
+*   main
+*   feature/mongodb_structure
+>>>>>>> main
