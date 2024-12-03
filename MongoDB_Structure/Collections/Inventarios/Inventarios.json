@@ -1,9 +1,31 @@
 {
-    "id": "1234",
-    "producto": "Arroz",
-    "UbicacionTienda": "carrera 40 # 40-41 --- seria la ubicacion de la tienda",
-    "stock": 100,
-    "fechaLlegada": "30/10/2024",
-    "fechaUltimActualizacion":"10/11/2024 --- esto seria la fecha de la ultima compra, supongo",
-    "nivelAlertaReposicion": "supongo que es algo numerico"
+    "_id":"123123",
+    "productos":[{
+        "numeroSerie":"123123",
+        "nombre":"arroz",
+        "categoria":"granos",
+        "ubicacionTienda":[{
+            "direccion":"carrera 40 # 40-41",
+            "ciudad":"Tulua",
+            "codPostal":"72272"
+        }],
+        "stock":100,
+        "FechaLlegada":"02/11/2024",
+        "FechaUltimaAct":"02/11/2024",
+        "nivelAlertaReposicion":5
+    },  
+    {
+        "numeroSerie":"123123",
+        "nombre":"pan",
+        "categoria":"harina",
+        "ubicacionTienda":[{
+            "direccion":"carrera 40 # 40-41",
+            "ciudad":"armenia",
+            "codPostal":"202033"
+        }],
+        "stock":80,
+        "FechaLlegada":"02/10/2024",
+        "FechaUltimaAct":"20/10/2024",
+        "nivelAlertaReposicion":5
+}]
 }
