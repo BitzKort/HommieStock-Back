@@ -1,8 +1,25 @@
 {
-    "id":"1234",
+    "identificación":„1234",
     "cliente":"Referencia a cliente toca ver que cosas metemos aqui",
     "producto":"Referencia a producto, toca ver que cosas metemos aqui",
     "cantidadPedida":12,
     "estado":"en camino",
-    "fechaPedido":"10/11/2024"
+ „fechaPedido":„11/10/2024"
+}
+
+{
+  "_id": "pedido001",
+  "cliente_id": „cliente001",
+  "productos": [
+    {
+      "producto_id": "prod001",
+      "cantidad": 1
+    },
+    {
+      "producto_id": "prod002",
+      "cantidad": 2
+    }
+  ],
+  "estado": "entregado",
+  "fecha_pedido": „2024-12-01"
 }
