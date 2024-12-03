@@ -1,11 +1,26 @@
-{
-    "id":"1233",
-    "nombre": "Tienda wanabana",
-    "direccion":"Carrera 40 # 40 - 41",
-    "ciudad": "Tulua",
-    "codPostal":"1123",
-    "capacidadALmacenamiento":"12345",
-    "Horario":"lunes a viernes de 9:00 am a 8:00 pm"
-
-
-}
+[
+    {
+        "_id": "1233",
+        "nombre": "Tienda wanabana",
+        "direccion": "Carrera 40 # 40 - 41",
+        "ciudad": "Tulua",
+        "codPostal": "1123",
+        "capacidadAlmacenamiento": "12345",
+        "horarioOperacion": {
+            "horarioEntrada": "7:00",
+            "horarioSalida": "20:00"
+        }
+    },
+    {
+        "_id": 123456,
+        "nombre": "Tienda 1",
+        "direccion": "Carrea 2992929",
+        "ciudad": "Tulua",
+        "codPostal": "762330",
+        "capacidadAlmacenamiento": 999,
+        "horarioOperación": {
+            "horarioEntrada": "7:00",
+            "horarioSalida": "20:00"
+        }
+    }
+]
