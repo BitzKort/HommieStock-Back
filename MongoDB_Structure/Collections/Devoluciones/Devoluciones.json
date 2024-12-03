@@ -1,7 +1,26 @@
-{
-    "id":"1234",
-    "pedidoRe":"referencia a pedido",
-    "motivo":"Arroz con gorgojo",
-    "cantidadDevuelta":1,
-    "fechaDevolucion":"10/21/2024"
-}
+[
+    {
+        "id": "1234",
+        "pedidoRe": [],
+        "motivoDevolucion": "Arroz con gorgojo",
+        "cantidadDevuelta": 1,
+        "fechaDevolucion": "10/21/2024"
+    },
+
+    {
+        "_id": "1235",
+        "pedidoRe": [
+            {
+                "_id": "123456",
+                "producto": "Teclado",
+                "cantidad": "1",
+                "estadoEnvio": "Pendiente",
+                "fechaPedido": "12/12/2020"
+            }
+        ],
+        "motivoDevolucion": "Arroz con gorgojo",
+        "cantidadDevuelta": 1,
+        "fechaDevolucion": "10/22/2024"
+    }
+]
+

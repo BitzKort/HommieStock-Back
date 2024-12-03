@@ -1,9 +1,34 @@
-{
-    "id":"1234",
-    "nombre":"juan felipe casallas ruiz",
-    "direccionEnvio":"carrera 40 # 40- 42",
-    "HistorialPedidos": [{
-        "aqui van los pedidos ":"esto podria ser solo el codigo del pedido y ya, sin embargo toca ver si puede ser una tabla aparte"
-    }]
-
-}
+[
+    {
+        "_id": "1234",
+        "nombre": "Dante Casillas",
+        "direccion": "Carrera 21 # 4 - 41",
+        "ciudad": "Tulua",
+        "codPostal": "1123",
+        "historialPedidos": [
+            {
+                "_id": "123457",
+                "producto": "Mouse",
+                "cantidad": "1",
+                "estadoEnvio": "Entregado",
+                "fechaPedido": "12/12/2020"
+            }
+        ]
+    },
+    {
+        "_id": "1235",
+        "nombre": "Ruiz Albeiro",
+        "direccion": "Carrera 28 # 90 - 69",
+        "ciudad": "Tulua",
+        "codPostal": "3456",
+        "historialPedidos": [
+            {
+                "_id": "123456",
+                "producto": "Teclado",
+                "cantidad": "1",
+                "estadoEnvio": "Pendiente",
+                "fechaPedido": "12/12/2020"
+            }
+        ]
+    }
+]
