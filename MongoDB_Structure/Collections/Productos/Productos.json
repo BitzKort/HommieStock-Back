@@ -1,10 +1,62 @@
 {
-    "id": "1234",
+    "identificación": „1234",
     "nombre": "Arroz",
-    "descripcion": "Roa es el arroz de las señoras",
-    "numeroSerie": "4567",
-    "categoria": "Granos",
+ „descripciónárea": „Roa es el arroz de las señoras",
+ „Serie Numero": „4567",
+    "categoría": "Granos",
     "precioUnitario": 2000,
-    "fechaCaducidad": "10/12/2024",
-    "proveedor":"Variedades Arango"
+ „fechaCaducidad": „10/12/2024",
+    "proveedor":„Variedades Arango"
 }
+
+  {
+    "_id": "prod001",
+    "nombre": „Plataforma HP 15",
+ „descripciónárea": "Procesador HP portátil Intel i7, 16GB de RAM y 512GB de SSD". . . .,
+    "numero_serie": „HP-15-123456",
+    "categoría": „Electrónica",
+    "precio_unitario": 899,99,
+    "fecha_caducidad": nulo,
+    "proveedor_id": "prov001"
+  },
+  {
+    "_id": "prod002",
+    "nombre": „Monitor Samsung 24",
+ „descripciónárea": "Monitor Samsung de 24 pulgadas, resolución Full HD, con puerto HDMI y VGA". . . .,
+    "numero_serie": „SAMS-24-789012",
+    "categoría": „Electrónica",
+    "precio_unitario": 149,99,
+    "fecha_caducidad" : nulo,
+    "proveedor_id": "prov002"
+  },
+  {
+    "_id": "prod003",
+    "nombre": „Manzanas Granny Smith",
+ „descripciónárea": "Manzanas frescas y jugosas, perfectas para postres o como snack saludable". . . .,
+    "numero_serie": nulo,
+    "categoría": „Alimentos perecederos",
+    "precio_unitario": 1,50,
+    "fecha_caducidad": „2024-12-10",
+    "proveedor_id": "prov003"
+  },
+  {
+    "_id": "prod004",
+    "nombre": „Camiseta Básica Negra",
+ „descripciónárea": "camiseta de algodón 100%, color negro, disponible en tallas S, M, L y XL". . . .,
+    "numero_serie": „CAM-NEG-001",
+    "categoría": "Ropa",
+    "precio_unitario": 9,99,
+    "fecha_caducidad": nulo,
+    "proveedor_id": "prov004"
+  },
+  {
+    "_id": "prod005",
+    "nombre": "Luces Navideñas LED",
+ „descripciónárea": "Luces LED para decoración navideña, 10 metros, resistencia al agua. . . .,
+    "numero_serie": „LED-XMAS-2024",
+    "categoría": „Articulos de temporada",
+    "precio_unitario": 19,99,
+    "fecha_caducidad": nulo,
+    "proveedor_id": "prov005"
+  }
+
