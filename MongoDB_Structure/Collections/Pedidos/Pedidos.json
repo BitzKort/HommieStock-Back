@@ -1,25 +1,21 @@
 {
-    "identificación":„1234",
-    "cliente":"Referencia a cliente toca ver que cosas metemos aqui",
-    "producto":"Referencia a producto, toca ver que cosas metemos aqui",
-    "cantidadPedida":12,
-    "estado":"en camino",
- „fechaPedido":„11/10/2024"
-}
-
-{
-  "_id": "pedido001",
-  "cliente_id": „cliente001",
+  "_id": "123123123",
+  "cliente_id": "cliente001",
+  "nombreCliente": "arango",
   "productos": [
     {
-      "producto_id": "prod001",
-      "cantidad": 1
+      "numerodeSerie":"123123",
+      "cantidad": 1,
+      "nombre":"arroz",
+      "precioUni":1000
     },
     {
-      "producto_id": "prod002",
-      "cantidad": 2
+      "numerodeSerie":"231231",
+      "cantidad": 2,
+      "nombre":"arroz",
+      "precioUni":2000
     }
   ],
   "estado": "entregado",
-  "fecha_pedido": „2024-12-01"
+  "fecha_pedido": "2024-12-01"
 }
