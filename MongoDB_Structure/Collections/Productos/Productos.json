@@ -1,83 +1,66 @@
 [
   {
-    "productoId": 1,
+    "_id": 1,
     "nombre": "Laptop Dell XPS 13",
     "descripcion": "Laptop ultradelgada con procesador Intel i7, 16GB de RAM y 512GB SSD.",
     "numeroSerie": "XPS13-001",
     "categoria": "Electrónica",
     "precioUnitario": 899.99,
     "fechaCaducidad": null,
-    "proveedor": {
+    "proveedores":[{
       "_id": "6412",
       "nombre": "Proveedor1",
+      "precioCompra":85000,
       "contacto": {
         "telefono": "3106473832",
         "email": "contacto@gmail.com"
       }
     }
+  ],
+    "tiendas":[
+    {
+     "_id" :"1233",
+      "nombre": "Tienda wanabana",
+      "direccion": "Carrera 40 # 40 - 41"
+    },
+    
+    {
+      "_id" :"1243533",
+      "nombre": "Tienda wanabana",
+      "direccion": "Carrera 40 # 40 - 41"
+    }
+  ]
   },
   {
-    "productoId": 2,
-    "nombre": "Manzana Roja",
-    "descripcion": "Manzana fresca, cultivada orgánicamente.",
-    "numeroSerie": "M-001",
-    "categoria": "Alimentos",
-    "precioUnitario": 1.50,
-    "fechaCaducidad": "2024-12-10",
-    "proveedor": {
+    "_id": 2,
+    "nombre": "Nitroglicerina liquida",
+    "descripcion": "Perfecta para llegar a tiempo a la uni",
+    "numeroSerie": "XLR8-02",
+    "categoria": "Electrónica",
+    "precioUnitario": 499.99,
+    "fechaCaducidad": "2044-06-12T02:30:34",
+    "proveedores":[{
       "_id": "6412",
       "nombre": "Proveedor1",
-      "telefono": "3106473832",
-      "email": "contacto@gmail.com"
+      "precioCompra":85000,
+      "contacto": {
+        "telefono": "3106473832",
+        "email": "contacto@gmail.com"
+      }
     }
-  },
-  {
-    "productoId": 3,
-    "nombre": "Camiseta Nike",
-    "descripcion": "Camiseta de algodón 100%, talla M.",
-    "numeroSerie": "NIKE-001",
-    "categoria": "Ropa",
-    "precioUnitario": 25.99,
-    "fechaCaducidad": null,
-    "proveedorId": 3,
-    "proveedorNombre": "Nike",
-    "proveedorContacto": {
-      "nombre": "Carlos Rodríguez",
-      "telefono": "555-123-4567",
-      "email": "carlos.rodriguez@nike.com"
+  ],
+    "tiendas":[
+    {
+     "_id" :"1233",
+      "nombre": "Tienda wanabana",
+      "direccion": "Carrera 40 # 40 - 41"
+    },
+    
+    {
+      "_id" :"1243533",
+      "nombre": "Tienda wanabana",
+      "direccion": "Carrera 40 # 40 - 41"
     }
-  },
-  {
-    "productoId": 4,
-    "nombre": "Samsung Galaxy S22",
-    "descripcion": "Smartphone con pantalla AMOLED, 8GB RAM y 128GB almacenamiento.",
-    "numeroSerie": "SGS22-001",
-    "categoria": "Electrónica",
-    "precioUnitario": 799.99,
-    "fechaCaducidad": null,
-    "proveedorId": 1,
-    "proveedorNombre": "Samsung",
-    "proveedorContacto": {
-      "nombre": "Lucía Martínez",
-      "telefono": "555-234-5678",
-      "email": "lucia.martinez@samsung.com"
-    }
-  },
-  {
-    "productoId": 5,
-    "nombre": "Lente de contacto Acuvue",
-    "descripcion": "Lentes de contacto mensuales, paquete de 6 unidades.",
-    "numeroSerie": "ACVUE-001",
-    "categoria": "Salud",
-    "precioUnitario": 34.99,
-    "fechaCaducidad": "2025-06-01",
-    "proveedorId": 4,
-    "proveedorNombre": "Johnson & Johnson",
-    "proveedorContacto": {
-      "nombre": "María López",
-      "telefono": "800-555-0199",
-      "email": "maria.lopez@jjhealthcare.com"
-    }
+  ]
   }
 ]
-  

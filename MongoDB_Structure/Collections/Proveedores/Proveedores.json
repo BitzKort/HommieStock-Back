@@ -4,22 +4,24 @@
       "nombre": "Proveedor1",
       "direccion": "Avenida Principal 123",
       "ciudad": "Ciudad Peru",
-      "codigo_postal": "01000", 
+      "codigoPostal": "01000", 
       "contacto": {
         "telefono": "3106473832",
         "email": "contacto@gmail.com"
       },
-      "productos_suministrados": [
+      "productosSuministrados": [
         {
           "_id": "123456",
           "nombre": "Teclado",
-          "precioUnitario": "",
+          "precioCompra": 38000,
+          "precioUnitario": 48000,
           "categoria": "Tecnologia"
         },
         {
           "_id": "1234567",
           "nombre": "Mouse",
-          "precioUnitario": "",
+          "precioCompra": 58000,
+          "precioUnitario": 170200,
           "categoria": "Tecnologia"
         }
       ]
@@ -29,22 +31,24 @@
         "nombre": "Proveedor2",
         "direccion": "Avenida En La Esquina",
         "ciudad": "Ciudad Peru",
-        "codigo_postal": "01000",
+        "codigoPostal": "01000",
         "contacto": {
           "telefono": "3108822992",
           "email": "contacto@gmail.com"
         },
-        "productos_suministrados": [
+        "productosSuministrados": [
           {
             "_id": "123456",
             "nombre": "Teclado",
-            "precioUnitario": "",
+            "precioCompra": 38000,
+            "precioUnitario": 48000,
             "categoria": "Tecnologia"
           },
           {
             "_id": "1234567",
             "nombre": "Mouse",
-            "precioUnitario": "",
+            "precioCompra": 58000,
+            "precioUnitario": 170000,
             "categoria": "Tecnologia"
           }
         ]

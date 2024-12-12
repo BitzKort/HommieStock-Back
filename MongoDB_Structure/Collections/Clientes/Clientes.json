@@ -11,7 +11,7 @@
                 "producto": "Mouse",
                 "cantidad": "1",
                 "estadoEnvio": "Entregado",
-                "fechaPedido": "12/12/2020"
+                "fechaPedido": "2020-05-12T12:30:04"
             }
         ]
     },
@@ -27,7 +27,7 @@
                 "producto": "Teclado",
                 "cantidad": "1",
                 "estadoEnvio": "Pendiente",
-                "fechaPedido": "12/12/2020"
+                "fechaPedido": "2023-02-12T12:10:04"
             }
         ]
     }
