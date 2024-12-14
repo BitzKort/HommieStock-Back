@@ -1,6 +1,6 @@
 [
     {
-        "id": "1234",
+        "_id": "1234",
         "pedidoRe": [],
         "motivoDevolucion": "Arroz con gorgojo",
         "cantidadDevuelta": 1,

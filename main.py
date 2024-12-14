@@ -1,10 +1,14 @@
 from fastapi import FastAPI, APIRouter
 from src.Routers.ProductosRouter import prodRouter
 from src.Routers.TIendasRouter import tiendaRouter
+from src.Routers.CategoriasRouter import categoriaRouter
+from src.Routers.ClientesRouter import clienteRouter
 from src.Repository.mongodb import database, connection, collections
 app = FastAPI()
 app.include_router(prodRouter)
 app.include_router(tiendaRouter)
+app.include_router(categoriaRouter)
+app.include_router(clienteRouter)
 
 
 @app.get('/')

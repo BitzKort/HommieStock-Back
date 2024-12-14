@@ -1,6 +1,6 @@
 [
     {
-        "id":"qwe123",
+        "_id":"qwe123",
         "nombre":"Electrodomesticos",
         "productos":[
             {
