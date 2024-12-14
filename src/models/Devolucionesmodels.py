@@ -11,7 +11,7 @@ class Devolucion(BaseModel):
     _id: str
     pedidoRe: list[Pedido]
     motivoDevolucion: str
-    cantidadDevuelta: str
+    cantidadDevuelta: int
     fechaDevolucion: str
     estado: int
     
