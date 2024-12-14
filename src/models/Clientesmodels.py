@@ -14,3 +14,4 @@ class Cliente(BaseModel):
     ciudad: str
     codPostal: str
     historialPedidos: list[Pedido]
+    estado: int

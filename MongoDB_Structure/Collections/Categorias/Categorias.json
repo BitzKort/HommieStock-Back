@@ -8,7 +8,8 @@
                 "nombre":"Nevera",
                 "descripcion":"enfria"
             }
-        ]
+        ],
+        "estado": 1
     }
 
 

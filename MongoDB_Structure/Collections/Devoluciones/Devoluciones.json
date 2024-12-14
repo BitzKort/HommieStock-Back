@@ -4,7 +4,8 @@
         "pedidoRe": [],
         "motivoDevolucion": "Arroz con gorgojo",
         "cantidadDevuelta": 1,
-        "fechaDevolucion": "2024-09-12T02:15:34"
+        "fechaDevolucion": "2024-09-12T02:15:34",
+        "estado": 1
     },
     {
         "_id": "1235",
@@ -19,7 +20,7 @@
         ],
         "motivoDevolucion": "Arroz con gorgojo",
         "cantidadDevuelta": 1,
-        "fechaDevolucion": "2024-08-12T05:10:54"
+        "fechaDevolucion": "2024-08-12T05:10:54",
+        "estado": 1
     }
 ]
-

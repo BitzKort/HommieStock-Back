@@ -13,4 +13,5 @@ class Devolucion(BaseModel):
     motivoDevolucion: str
     cantidadDevuelta: str
     fechaDevolucion: str
+    estado: int
     

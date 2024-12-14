@@ -6,6 +6,7 @@ def clienteSerializer(cliente) -> dict:
         "ciudad": cliente["ciudad"],
         "codPostal": cliente["codPostal"],
         "historialPedidos": cliente["historialPedidos"],
+        "estado": cliente["estado"]
     }
     
 def listClienteSerializer(clientes) -> list:

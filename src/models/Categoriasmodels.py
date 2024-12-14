@@ -10,3 +10,4 @@ class Categoria(BaseModel):
     nombre: str
     descripcion: str
     productos: list[Producto]
+    estado: int
