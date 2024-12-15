@@ -8,13 +8,13 @@ devolucionRouter = APIRouter()
 db = database["devoluciones"]
 
 #Traer toda la lista de devoluciones
-@devolucionRouter.get("/devolucion/all")
+@devolucionRouter.get("/devolucion/all", tags=["Devoluciones"])
 async def all():
     devoluciones = listDevolucionSerializer(db.find())
     return devoluciones
 
 #Buscar devolución por ID
-@devolucionRouter.get("/devolucion/{id}")
+@devolucionRouter.get("/devolucion/{id}", tags=["Devoluciones"])
 async def get_devolucion(id: str):
     try:
         object_id = ObjectId(id)
@@ -28,13 +28,13 @@ async def get_devolucion(id: str):
         return devolucion
 
 #Crear una devolución
-@devolucionRouter.post("/devolucion/create")
+@devolucionRouter.post("/devolucion/create", tags=["Devoluciones"])
 async def create(devolucion: Devolucion):
     devolucion.pedidoRe = [dict(p) for p in devolucion.pedidoRe]
     db.insert_one(dict(devolucion))
     
 #Actualizar una devolución
-@devolucionRouter.put("/devolucion/update/{id}")
+@devolucionRouter.put("/devolucion/update/{id}", tags=["Devoluciones"])
 async def update(id: str, devolucion: Devolucion):
     try:
         object_id = ObjectId(id)
@@ -47,7 +47,7 @@ async def update(id: str, devolucion: Devolucion):
     return {"mensaje": "Devolución actualizada."}
 
 #Borrado lógico de una devolución
-@devolucionRouter.put("/devolucion/soft-delete/{id}")
+@devolucionRouter.put("/devolucion/soft-delete/{id}", tags=["Devoluciones"])
 async def soft_delete(id: str):
     try:
         object_id = ObjectId(id)
@@ -64,7 +64,7 @@ async def soft_delete(id: str):
     return {"mensaje": "Devolución eliminada."}\
 
 #Borrar todas las devoluciones (para pruebas)
-@devolucionRouter.delete("/devolucion/delete")
+@devolucionRouter.delete("/devolucion/delete", tags=["Devoluciones"])
 async def delete_all_devoluciones():
     resultado = db.delete_many({})
     
