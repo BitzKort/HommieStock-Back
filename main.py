@@ -6,6 +6,8 @@ from src.Routers.ClientesRouter import clienteRouter
 from src.Routers.DevolucionesRouter import devolucionRouter
 from src.Routers.ProveedoresRouter import proveedorRouter
 from src.Repository.mongodb import database, connection, collections
+from src.Repository.redis import redis
+
 app = FastAPI()
 app.include_router(productoRouter)
 app.include_router(tiendaRouter)
@@ -15,20 +17,25 @@ app.include_router(devolucionRouter)
 app.include_router(proveedorRouter)
 
 
-@app.get('/')
+@app.get("/")
 def status():
     try:
         dbName = database.name
-        connection.admin.command('ping')
-        return {"server": "up", 
-                "mongoCluesterConnection":"Successfully", 
-                "mongoDatabase": "{}".format(dbName),
-                "collectionList": "{}".format(collections)}
+        connection.admin.command("ping")
+        redis.ping()
+        return {
+            "server": "up",
+            "mongoCluesterConnection": "Successfully",
+            "mongoDatabase": "{}".format(dbName),
+            "collectionList": "{}".format(collections),
+            "redisConnection": "Successfully",
+        }
     except Exception as e:
         print("error in mongo connection: {}".format(e))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import uvicorn
-    uvicorn.run(app,host = 'localhost', port= 8000)
+
+    uvicorn.run(app, host="localhost", port=8000)
