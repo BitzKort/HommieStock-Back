@@ -65,16 +65,16 @@ async def getProducto(id: str):
 
 @productoRouter.put("/producto/update/{id}")
 
-async def updateProducto(id: str, producto: Producto):
+async def updateProducto(id: str, proveedor: Proveedores):
     try:
         object_id = ObjectId(id)
     except Exception:
         raise HTTPException(status_code=400, detail="ID inválido.")
     
-    producto.proveedores = toDict(producto.proveedores)
-    db.update_one({"_id": object_id}, {"$set": dict(producto)})
+    proveedor.proveedores = toDict(proveedor.proveedores)
+    db.update_one({"_id": object_id}, {"$set": dict(proveedor)})
     
-    return {"mensaje": "pruducto actualizado."}
+    return {"mensaje": "Proveedor actualizado."}
 
 
 '''
