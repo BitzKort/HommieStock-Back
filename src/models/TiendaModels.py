@@ -13,3 +13,4 @@ class Tienda(BaseModel):
     codPostal: str
     capacidadAlmacenamiento: str
     horarioOperacion: horarioOperacion
+    estado:int
