@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
-from src.models.Categoriasmodels import Categoria
+from src.models.CategoriasModels import Categoria
 from src.Repository.mongodb import database
-from src.schemas.Categoriaschemas import listCategoriaSerializer
+from src.schemas.CategoriaSchemas import listCategoriaSerializer
 from bson import ObjectId
 categoriaRouter = APIRouter()
 
@@ -63,7 +63,6 @@ async def soft_delete(id: str):
     db.update_one({"_id": object_id}, {"$set": {"estado": 0}})
     
     return {"mensaje": "Categoría eliminada."}
-
 
 #Borrar todas las categorías (para pruebas)
 @categoriaRouter.delete("/categoria/delete")

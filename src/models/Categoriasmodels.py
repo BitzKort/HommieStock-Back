@@ -6,7 +6,6 @@ class Producto(BaseModel):
     descripcion: str
 
 class Categoria(BaseModel):
-    _id: str
     nombre: str
     descripcion: str
     productos: list[Producto]
