@@ -13,7 +13,8 @@
                 "estadoEnvio": "Entregado",
                 "fechaPedido": "2020-05-12T12:30:04"
             }
-        ]
+        ],
+        "estado": 1
     },
     {
         "_id": "1235",
@@ -29,6 +30,7 @@
                 "estadoEnvio": "Pendiente",
                 "fechaPedido": "2023-02-12T12:10:04"
             }
-        ]
+        ],
+        "estado": 1
     }
 ]
