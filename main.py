@@ -1,6 +1,6 @@
 from fastapi import FastAPI, APIRouter
 from src.Routers.ProductosRouter import prodRouter
-from src.Routers.TIendasRouter import tiendaRouter
+from src.Routers.TiendasRouter import tiendaRouter
 from src.Routers.CategoriasRouter import categoriaRouter
 from src.Routers.ClientesRouter import clienteRouter
 from src.Routers.DevolucionesRouter import devolucionRouter

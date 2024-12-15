@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from src.models.DevolucionesModels import Devolucion
 from src.Repository.mongodb import database
-from src.schemas.DevolucionesSchemas import listDevolucionSerializer
+from src.schemas.DevolucioneSchemas import listDevolucionSerializer
 from bson import ObjectId
 devolucionRouter = APIRouter()
 
