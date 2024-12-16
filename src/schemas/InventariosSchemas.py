@@ -4,5 +4,5 @@ def inventarioSerializer(inventario) -> dict:
         "productos": inventario["productos"]
     }
 
-def listPedidoSerializer(inventarios) -> list:
+def listInventarioSerializer(inventarios) -> list:
     return [inventarioSerializer(inventario) for inventario in inventarios]
