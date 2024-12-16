@@ -1,7 +1,7 @@
 def inventarioSerializer(inventario) -> dict:
     return {
         "id": str(inventario["_id"]),
-        "producto": inventario["productos"]
+        "productos": inventario["productos"]
     }
 
 def listPedidoSerializer(inventarios) -> list:
