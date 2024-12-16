@@ -9,7 +9,7 @@
         "telefono": "3106473832",
         "email": "contacto@gmail.com"
       },
-      "productosSuministrados": [
+      "productoSuministrados": [
         {
           "_id": "123456",
           "nombre": "Teclado",

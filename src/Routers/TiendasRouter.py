@@ -9,7 +9,7 @@ tiendaRouter = APIRouter()
 db = database["tiendas"]
 
 @tiendaRouter.get("/tienda/all")
-async def algo():
+async def getAllTiendas():
 
     tiendas = listTiendaSerializer(db.find())
     return tiendas
@@ -18,13 +18,6 @@ async def algo():
 async def create(tienda: Tienda):
     tienda.horarioOperacion = dict(tienda.horarioOperacion)
     db.insert_one(dict(tienda))
-
-@tiendaRouter.get("/tienda/all")
-
-async def getAll():
-    
-    tienda = listTiendaSerializer(db.find())
-    return tienda
 
 @tiendaRouter.get("/tienda/{id}")
 
@@ -48,19 +41,29 @@ async def updateTienda(id: str, tienda: Tienda):
     except Exception:
         raise HTTPException(status_code=400, detail="ID inválido.")
     
-    tienda.horarioOperacion = [dict(p) for p in tienda.horarioOperacion]
+    tienda.horarioOperacion = dict(tienda.horarioOperacion)
     db.update_one({"_id": object_id}, {"$set": dict(tienda)})
     
     return {"mensaje": "tienda actualizada."}
 
-
 @tiendaRouter.put("/tienda/soft-delete/{id}")
 
-async def softDeleteTienda():
+async def sofTiendaDelete(id: str):
+    try:
+        object_id = ObjectId(id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="ID inválido.")
     
-    pass
+    tienda = db.find_one({"_id": object_id})
+    
+    if tienda is None:
+        raise HTTPException(status_code=404, detail="Categoría no encontrada.")
+    
+    db.update_one({"_id": object_id}, {"$set": {"estado": 0}})
+    
+    return {"mensaje": "Tienda eliminada."}
 
-@tiendaRouter.delete("tienda/delete/all")
+@tiendaRouter.delete("/tienda/delete/all")
 
 async def delete_all_tiendas():
     resultado = db.delete_many({})

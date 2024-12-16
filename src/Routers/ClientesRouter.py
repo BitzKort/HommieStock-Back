@@ -8,13 +8,13 @@ clienteRouter = APIRouter()
 db = database["clientes"]
 
 #Traer todos los clientes
-@clienteRouter.get("/cliente/all")
+@clienteRouter.get("/cliente/all", tags=["Clientes"])
 async def all():
     clientes = listClienteSerializer(db.find())
     return clientes
 
 #Buscar cliente por ID
-@clienteRouter.get("/cliente/{id}")
+@clienteRouter.get("/cliente/{id}", tags=["Clientes"])
 async def get_cliente(id: str):
     try:
         object_id = ObjectId(id)
@@ -28,13 +28,13 @@ async def get_cliente(id: str):
         return cliente
 
 #Crear un cliente
-@clienteRouter.post("/cliente/create")
+@clienteRouter.post("/cliente/create", tags=["Clientes"])
 async def create(cliente: Cliente):    
     cliente.historialPedidos = [dict(p) for p in cliente.historialPedidos]
     db.insert_one(dict(cliente))
     
 #Actualizar un cliente
-@clienteRouter.put("/cliente/update/{id}")
+@clienteRouter.put("/cliente/update/{id}", tags=["Clientes"])
 async def update(id: str, cliente: Cliente):
     try:
         object_id = ObjectId(id)
@@ -47,7 +47,7 @@ async def update(id: str, cliente: Cliente):
     return {"mensaje": "Cliente actualizado."}
 
 #Borrado lógico de un cliente
-@clienteRouter.put("/cliente/soft-delete/{id}")
+@clienteRouter.put("/cliente/soft-delete/{id}", tags=["Clientes"])
 async def soft_delete(id: str):
     try:
         object_id = ObjectId(id)
@@ -64,7 +64,7 @@ async def soft_delete(id: str):
     return {"mensaje": "Cliente eliminado."}
 
 #Borrar todas los clientes (para pruebas)
-@clienteRouter.delete("/cliente/delete")
+@clienteRouter.delete("/cliente/delete", tags=["Clientes"])
 async def delete_all_clientes():
     resultado = db.delete_many({})
     
