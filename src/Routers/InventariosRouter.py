@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from src.models.InventariosModels import Inventario
 from src.Repository.mongodb import database
+from src.schemas.InventariosSchemas import listInventarioSerializer
 from bson import ObjectId
 
 inventarioRouter = APIRouter()
@@ -10,8 +11,8 @@ tag = "Inventarios"
 
 #Listar todos los inventarios
 @inventarioRouter.get("/inventario/all", tags=[tag])
-async def getAllInventarios ():
-    inventarios = list(dbInventarios.find())
+async def getAllInventarios():
+    inventarios = listInventarioSerializer(dbInventarios.find())
     return inventarios
 
 #Traer un inventario por id
