@@ -7,13 +7,41 @@ devolucionRouter = APIRouter()
 
 db = database["devoluciones"]
 
-#Traer toda la lista de devoluciones
+import time
+from fastapi import APIRouter, HTTPException
+from src.models.DevolucionesModels import Devolucion
+from src.Repository.mongodb import database
+from src.schemas.DevolucioneSchemas import listDevolucionSerializer
+from bson import ObjectId
+from src.Repository.redis import redis
+
+devolucionRouter = APIRouter()
+
+db = database["devoluciones"]
+
+# Traer toda la lista de devoluciones
 @devolucionRouter.get("/devolucion/all")
 async def all():
-    devoluciones = listDevolucionSerializer(db.find())
+    start = time.time()
+
+    devoluciones = redis.json().get("devoluciones", "$")
+
+    if devoluciones is None:
+        devoluciones = listDevolucionSerializer(db.find())
+        # Guardamos en Redis
+        redis.json().set("devoluciones", "$", devoluciones)
+        end = time.time()
+        run_time = end - start
+        print(f"Run time (Without Redis): {run_time}")
+    else:
+        end = time.time()
+        run_time = end - start
+        print(f"Run time (With Redis): {run_time}")
+
     return devoluciones
 
-#Buscar devolución por ID
+
+# Buscar devolución por ID
 @devolucionRouter.get("/devolucion/{id}")
 async def get_devolucion(id: str):
     try:
@@ -21,11 +49,24 @@ async def get_devolucion(id: str):
     except Exception:
         raise HTTPException(status_code=400, detail="ID inválido.")
 
-    devolucion = db.find_one({"_id": object_id})
-    
-    if devolucion is not None:
+    # Primero intentamos buscar en Redis
+    devolucion = redis.json().get(f"devolucion:{id}", "$")
+
+    if devolucion is None:
+        # Si no está en Redis, buscamos en la base de datos
+        devolucion = db.find_one({"_id": object_id})
+
+        if devolucion is None:
+            raise HTTPException(status_code=404, detail="Devolución no encontrada.")
+        
+        # Convertir el _id de ObjectId a string para devolverlo de forma correcta
         devolucion["_id"] = str(devolucion["_id"])
-        return devolucion
+
+        # Guardamos la devolución en Redis para futuras consultas
+        redis.json().set(f"devolucion:{id}", "$", devolucion)
+    
+    return devolucion
+
 
 #Crear una devolución
 @devolucionRouter.post("/devolucion/create")
