@@ -8,14 +8,14 @@ categoriaRouter = APIRouter()
 db = database["categorias"]
 
 #Traer toda la lista de categorias
-@categoriaRouter.get("/categoria/all")
+@categoriaRouter.get("/categoria/all", tags=["Categorias"])
 async def all():
     
     categorias = listCategoriaSerializer(db.find())
     return categorias
 
 #Buscar categoría por ID
-@categoriaRouter.get("/categoria/{id}")
+@categoriaRouter.get("/categoria/{id}", tags=["Categorias"])
 async def get_categoria(id: str):
     try:
         object_id = ObjectId(id)
@@ -29,13 +29,13 @@ async def get_categoria(id: str):
         return categoria
 
 #Crear una categoria
-@categoriaRouter.post("/categoria/create")
+@categoriaRouter.post("/categoria/create", tags=["Categorias"])
 async def create(categoria: Categoria):    
     categoria.productos = [dict(p) for p in categoria.productos]
     db.insert_one(dict(categoria)) 
     
 #Actualizar una categoria
-@categoriaRouter.put("/categoria/update/{id}")
+@categoriaRouter.put("/categoria/update/{id}", tags=["Categorias"])
 async def update(id: str, categoria: Categoria):
     try:
         object_id = ObjectId(id)
@@ -48,7 +48,7 @@ async def update(id: str, categoria: Categoria):
     return {"mensaje": "Categoría actualizada."}
 
 #Borrado lógico de una categoría
-@categoriaRouter.put("/categoria/soft-delete/{id}")
+@categoriaRouter.put("/categoria/soft-delete/{id}", tags=["Categorias"])
 async def soft_delete(id: str):
     try:
         object_id = ObjectId(id)
@@ -65,7 +65,7 @@ async def soft_delete(id: str):
     return {"mensaje": "Categoría eliminada."}
 
 #Borrar todas las categorías (para pruebas)
-@categoriaRouter.delete("/categoria/delete")
+@categoriaRouter.delete("/categoria/delete", tags=["Categorias"])
 async def delete_all_categorias():
     resultado = db.delete_many({})
     
