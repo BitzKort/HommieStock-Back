@@ -1,20 +1,37 @@
+import time
 from fastapi import APIRouter, HTTPException
+from bson import ObjectId
 from src.models.CategoriasModels import Categoria
 from src.Repository.mongodb import database
 from src.schemas.CategoriaSchemas import listCategoriaSerializer
-from bson import ObjectId
+from src.Repository.redis import redis
+
 categoriaRouter = APIRouter()
 
 db = database["categorias"]
 
-#Traer toda la lista de categorias
+# Traer toda la lista de categorías
 @categoriaRouter.get("/categoria/all")
 async def all():
-    
-    categorias = listCategoriaSerializer(db.find())
+    start = time.time()
+
+    categorias = redis.json().get("categorias", "$")
+
+    if categorias is None:
+        categorias = listCategoriaSerializer(db.find())
+        # Guardar en Redis
+        redis.json().set("categorias", "$", categorias)
+        end = time.time()
+        run_time = end - start
+        print(f"Run time (Without Redis): {run_time}")
+    else:
+        end = time.time()
+        run_time = end - start
+        print(f"Run time (With Redis): {run_time}")
     return categorias
 
-#Buscar categoría por ID
+
+# Buscar categoría por ID
 @categoriaRouter.get("/categoria/{id}")
 async def get_categoria(id: str):
     try:
@@ -22,11 +39,23 @@ async def get_categoria(id: str):
     except Exception:
         raise HTTPException(status_code=400, detail="ID inválido.")
 
-    categoria = db.find_one({"_id": object_id})
-    
-    if categoria is not None:
+    # Primero intentamos buscar en Redis
+    categoria = redis.json().get(f"categoria:{id}", "$")
+
+    if categoria is None:
+        # Si no está en Redis, buscamos en la base de datos
+        categoria = db.find_one({"_id": object_id})
+
+        if categoria is None:
+            raise HTTPException(status_code=404, detail="Categoría no encontrada.")
+        
+        # Convertir el _id de ObjectId a string para devolverlo de forma correcta
         categoria["_id"] = str(categoria["_id"])
-        return categoria
+
+        # Guardamos la categoría en Redis para futuras consultas
+        redis.json().set(f"categoria:{id}", "$", categoria)
+        
+    return categoria
 
 #Crear una categoria
 @categoriaRouter.post("/categoria/create")
