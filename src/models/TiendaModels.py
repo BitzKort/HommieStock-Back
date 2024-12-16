@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class horarioOperacion(BaseModel):
     
     horarioEntrada: str
@@ -7,6 +8,7 @@ class horarioOperacion(BaseModel):
     
 
 class Tienda(BaseModel):
+    _id: str
     nombre: str
     direccion: str
     ciudad: str
@@ -14,3 +16,4 @@ class Tienda(BaseModel):
     capacidadAlmacenamiento: str
     horarioOperacion: horarioOperacion
     estado:int
+    inventarios: list[str] #Hace referencia al id de un inventario de la coleccion de inventarios

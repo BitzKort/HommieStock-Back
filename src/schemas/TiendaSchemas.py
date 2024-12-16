@@ -7,7 +7,8 @@ def tiendaSerializer(tienda) -> dict:
         "codPostal": tienda["codPostal"],
         "capacidadAlmacenamiento": tienda["capacidadAlmacenamiento"],
         "horarioOperacion": tienda["horarioOperacion"],
-        "estado": tienda["estado"]
+        "estado": tienda["estado"],
+        "inventarios": tienda["inventarios"]
 
     }
 
