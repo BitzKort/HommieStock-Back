@@ -1,22 +1,16 @@
 from pydantic import BaseModel
 
-class Tienda (BaseModel):
-    id: str
-    direccion: str
-    ciudad: str
-    codPostal: str
-
 class Producto (BaseModel):
     id: str
     numeroSerie: str
     nombre: str
     categoria: str
-    ubicacionTienda: list[Tienda]
+    
+class Inventario (BaseModel):
+    _id: str
+    productos: Producto
+    ubicacionTienda: str #Hace referencia al id de una tienda de la coleccion de tiendas
     stock: int
     fechaLlegada: str
     fechaUltimaAct: str
     nivelAlertaReposicion: int
-
-class Inventario (BaseModel):
-    _id: str
-    productos: list[Producto]
