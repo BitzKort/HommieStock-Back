@@ -52,7 +52,7 @@ async def update(id: str, pedido_update: Pedido):
 
 
 #Borrar logicamente un pedido
-@pedidoRouter.put("/pedido/soft-delete/{id}")
+@pedidoRouter.put("/pedido/soft-delete/{id}", tags=[tag])
 async def softDelete(id: str):
     try:
         object_id = ObjectId(id)

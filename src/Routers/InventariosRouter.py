@@ -51,7 +51,7 @@ async def update(id: str, inventario_update: Inventario):
 
 
 #Borrar logicamente un inventario
-@inventarioRouter.put("/inventario/soft-delete/{id}")
+@inventarioRouter.put("/inventario/soft-delete/{id}", tags=[tag])
 async def softDelete(id: str):
     try:
         object_id = ObjectId(id)

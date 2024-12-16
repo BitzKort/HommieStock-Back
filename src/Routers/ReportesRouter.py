@@ -50,7 +50,7 @@ async def update(id: str, reporte_update: Reporte):
 
 
 #Borrar logicamente un reporte
-@reporteRouter.put("/reporte/soft-delete/{id}")
+@reporteRouter.put("/reporte/soft-delete/{id}", tags=[tag])
 async def softDelete(id: str):
     try:
         object_id = ObjectId(id)

@@ -8,7 +8,8 @@ productoRouter = APIRouter()
 
 db = database["productos"]
 
-@productoRouter.get("/producto/all")
+tag = "Productos"
+@productoRouter.get("/producto/all", tags=[tag])
 async def getAllProductos():
 
     productos = listProductoSerializer(db.find())
@@ -41,7 +42,7 @@ def toDict(obj):
         return obj
 
 
-@productoRouter.post("/producto/create")
+@productoRouter.post("/producto/create", tags=[tag])
 
 async def create(producto: Producto):
 
@@ -49,7 +50,7 @@ async def create(producto: Producto):
     producto.proveedores = toDict(producto.proveedores)
     db.insert_one(dict(producto))
 
-@productoRouter.get("/producto/{id}")
+@productoRouter.get("/producto/{id}", tags=[tag])
 
 async def getProducto(id: str):
     try:
@@ -63,7 +64,7 @@ async def getProducto(id: str):
         producto["_id"] = str(producto["_id"])
         return producto
 
-@productoRouter.put("/producto/update/{id}")
+@productoRouter.put("/producto/update/{id}", tags=[tag])
 
 async def updateProducto(id: str, proveedor: Proveedores):
     try:
@@ -95,7 +96,7 @@ async def softProductoDelete(id: str):
     
     return {"mensaje": "Producto eliminado."}
 '''
-@productoRouter.delete("/producto/delete/all")
+@productoRouter.delete("/producto/delete/all", tags=[tag])
 
 async def delete_all_productors():
     resultado = db.delete_many({})

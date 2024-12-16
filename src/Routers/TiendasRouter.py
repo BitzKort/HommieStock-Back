@@ -7,19 +7,19 @@ from bson import ObjectId
 tiendaRouter = APIRouter()
 
 db = database["tiendas"]
-
-@tiendaRouter.get("/tienda/all")
+tag="Tiendas"
+@tiendaRouter.get("/tienda/all", tags=[tag])
 async def getAllTiendas():
 
     tiendas = listTiendaSerializer(db.find())
     return tiendas
 
-@tiendaRouter.post("/tienda/create")
+@tiendaRouter.post("/tienda/create", tags=[tag])
 async def create(tienda: Tienda):
     tienda.horarioOperacion = dict(tienda.horarioOperacion)
     db.insert_one(dict(tienda))
 
-@tiendaRouter.get("/tienda/{id}")
+@tiendaRouter.get("/tienda/{id}", tags=[tag])
 
 async def getTienda(id: str):
     try:
@@ -33,7 +33,7 @@ async def getTienda(id: str):
         tienda["_id"] = str(tienda["_id"])
         return tienda
 
-@tiendaRouter.put("/tienda/update/{id}")
+@tiendaRouter.put("/tienda/update/{id}", tags=[tag])
 
 async def updateTienda(id: str, tienda: Tienda):
     try:
@@ -46,7 +46,7 @@ async def updateTienda(id: str, tienda: Tienda):
     
     return {"mensaje": "tienda actualizada."}
 
-@tiendaRouter.put("/tienda/soft-delete/{id}")
+@tiendaRouter.put("/tienda/soft-delete/{id}", tags=[tag])
 
 async def sofTiendaDelete(id: str):
     try:
@@ -63,7 +63,7 @@ async def sofTiendaDelete(id: str):
     
     return {"mensaje": "Tienda eliminada."}
 
-@tiendaRouter.delete("/tienda/delete/all")
+@tiendaRouter.delete("/tienda/delete/all", tags=[tag])
 
 async def delete_all_tiendas():
     resultado = db.delete_many({})

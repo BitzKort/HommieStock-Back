@@ -7,16 +7,16 @@ from bson import ObjectId
 proveedorRouter = APIRouter()
 
 db = database["proveedores"]
+tag = "Proveedores"
 
-
-@proveedorRouter.get("/proveedor/all")
+@proveedorRouter.get("/proveedor/all", tags=[tag])
 async def getAllProveedor():
 
     proveedor = listproveedoreSerializer(db.find())
     return proveedor
 
 
-@proveedorRouter.post("/proveedor/create")
+@proveedorRouter.post("/proveedor/create", tags=[tag])
 
 async def create(proveedor: Proveedores):
 
@@ -25,7 +25,7 @@ async def create(proveedor: Proveedores):
     db.insert_one(dict(proveedor))
 
 
-@proveedorRouter.get("/proveedor/{id}")
+@proveedorRouter.get("/proveedor/{id}", tags=[tag])
 
 async def getProveedor(id: str):
     try:
@@ -40,7 +40,7 @@ async def getProveedor(id: str):
         return proveedor
 
 
-@proveedorRouter.put("/proveedor/update/{id}")
+@proveedorRouter.put("/proveedor/update/{id}", tags=[tag])
 
 async def updateProveedor(id: str, proveedor: Proveedores):
     try:
@@ -56,7 +56,7 @@ async def updateProveedor(id: str, proveedor: Proveedores):
 
 
 
-@proveedorRouter.put("/proveedor/soft-delete/{id}")
+@proveedorRouter.put("/proveedor/soft-delete/{id}", tags=[tag])
 
 async def softProveedorDelete(id: str):
     try:
@@ -73,7 +73,7 @@ async def softProveedorDelete(id: str):
     
     return {"mensaje": "proveedor eliminado."}
 
-@proveedorRouter.delete("/proveedor/delete/all")
+@proveedorRouter.delete("/proveedor/delete/all", tags=[tag])
 
 async def deleteAllProvedoores():
     resultado = db.delete_many({})
