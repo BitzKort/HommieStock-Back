@@ -1,10 +1,11 @@
 from pydantic import BaseModel
 
 class Cliente(BaseModel):
-    _id: str
+    id: str
     nombreCliente: str
 
 class Producto(BaseModel):
+    id: str
     numeroSerie: str
     cantidad: int
     nombre: str
