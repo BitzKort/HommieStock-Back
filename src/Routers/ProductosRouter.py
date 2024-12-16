@@ -1,18 +1,65 @@
+import time
 from fastapi import APIRouter, HTTPException
 from src.models.ProductosModels import Producto, Contactos, Proveedores
 from src.Repository.mongodb import database
 from src.schemas.ProductoSchemas import listProductoSerializer
 from bson import ObjectId
+from src.Repository.redis import redis
 
 productoRouter = APIRouter()
 
 db = database["productos"]
 
+# Traer toda la lista de productos
 @productoRouter.get("/producto/all")
 async def getAllProductos():
+    start = time.time()
 
-    productos = listProductoSerializer(db.find())
+    # Intentamos obtener los productos desde Redis
+    productos = redis.json().get("productos", "$")
+
+    if productos is None:
+        # Si no están en Redis, los obtenemos desde MongoDB
+        productos = listProductoSerializer(db.find())
+        # Guardamos los productos en Redis para futuras consultas
+        redis.json().set("productos", "$", productos)
+        end = time.time()
+        run_time = end - start
+        print(f"Run time (Without Redis): {run_time}")
+    else:
+        end = time.time()
+        run_time = end - start
+        print(f"Run time (With Redis): {run_time}")
+
     return productos
+
+
+# Buscar producto por ID
+@productoRouter.get("/producto/{id}")
+async def getProducto(id: str):
+    try:
+        # Intentamos convertir el id a un ObjectId válido
+        object_id = ObjectId(id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="ID inválido.")
+
+    # Primero intentamos buscar el producto en Redis
+    producto = redis.json().get(f"producto:{id}", "$")
+
+    if producto is None:
+        # Si no está en Redis, buscamos en la base de datos
+        producto = db.find_one({"_id": object_id})
+
+        if producto is None:
+            raise HTTPException(status_code=404, detail="Producto no encontrado.")
+        
+        # Convertimos el _id de ObjectId a string antes de devolverlo
+        producto["_id"] = str(producto["_id"])
+
+        # Guardamos el producto en Redis para futuras consultas
+        redis.json().set(f"producto:{id}", "$", producto)
+    
+    return producto
 
 
 def toDict(obj):
@@ -49,19 +96,6 @@ async def create(producto: Producto):
     producto.proveedores = toDict(producto.proveedores)
     db.insert_one(dict(producto))
 
-@productoRouter.get("/producto/{id}")
-
-async def getProducto(id: str):
-    try:
-        object_id = ObjectId(id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="ID inválido.")
-
-    producto = db.find_one({"_id": object_id})
-    
-    if producto is not None:
-        producto["_id"] = str(producto["_id"])
-        return producto
 
 @productoRouter.put("/producto/update/{id}")
 
