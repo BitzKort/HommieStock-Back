@@ -18,5 +18,5 @@ class Producto (BaseModel):
     nivelAlertaReposicion: int
 
 class Inventario (BaseModel):
-    id: str
+    _id: str
     productos: list[Producto]
