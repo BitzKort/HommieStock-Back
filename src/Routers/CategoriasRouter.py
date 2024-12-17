@@ -40,11 +40,20 @@ async def get_categoria(id: str):
     except Exception:
         raise HTTPException(status_code=400, detail="ID inválido.")
 
-    categoria = db.find_one({"_id": object_id})
+    categoria = redis.json().get(f"categoria:{id}", "$")
 
-    if categoria is not None:
+    if categoria is None:
+        categoria = db.find_one({"_id": object_id})
+        if categoria is None:
+            raise HTTPException(status_code=404, detail="Categoría no encontrada.")
+
         categoria["_id"] = str(categoria["_id"])
-        return categoria
+
+        redis.json().set(f"categoria:{id}", "$", categoria)
+    else:
+        categoria = categoria[0]
+
+    return categoria
 
 
 # Crear una categoria
@@ -52,6 +61,7 @@ async def get_categoria(id: str):
 async def create(categoria: Categoria):
     categoria.productos = [dict(p) for p in categoria.productos]
     db.insert_one(dict(categoria))
+    redis.delete("categorias")
 
 
 # Actualizar una categoria
@@ -63,7 +73,14 @@ async def update(id: str, categoria: Categoria):
         raise HTTPException(status_code=400, detail="ID inválido.")
 
     categoria.productos = [dict(p) for p in categoria.productos]
-    db.update_one({"_id": object_id}, {"$set": dict(categoria)})
+
+    result = db.update_one({"_id": object_id}, {"$set": dict(categoria)})
+
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Categoría no encontrada.")
+
+    redis.delete(f"categoria:{id}")
+    redis.delete("categorias")
 
     return {"mensaje": "Categoría actualizada."}
 
@@ -77,13 +94,15 @@ async def soft_delete(id: str):
         raise HTTPException(status_code=400, detail="ID inválido.")
 
     categoria = db.find_one({"_id": object_id})
-
     if categoria is None:
         raise HTTPException(status_code=404, detail="Categoría no encontrada.")
 
     db.update_one({"_id": object_id}, {"$set": {"estado": 0}})
 
-    return {"mensaje": "Categoría eliminada."}
+    redis.delete(f"categoria:{id}")
+    redis.delete("categorias")
+
+    return {"mensaje": "Categoría eliminada correctamente (soft delete)."}
 
 
 # Borrar todas las categorías (para pruebas)
@@ -93,5 +112,7 @@ async def delete_all_categorias():
 
     if resultado.deleted_count == 0:
         raise HTTPException(status_code=404, detail="No hay categorías para eliminar.")
+
+    redis.delete("categorias")
 
     return {"mensaje": f"Se eliminaron {resultado.deleted_count} categorías."}
