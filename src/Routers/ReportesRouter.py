@@ -3,6 +3,8 @@ from src.models.ReportesModels import Reporte, ReporteStockTienda
 from src.Repository.mongodb import database
 from bson import ObjectId
 
+from src.schemas.ReportesSchemas import listReporteSerializer
+
 reporteRouter = APIRouter()
 
 dbReportes = database["reportes"]
@@ -15,7 +17,7 @@ db_inventarios = database["inventarios"]
 #Listar todos los reportes
 @reporteRouter.get("/reporte/all", tags=[tag])
 async def getAllReportes ():
-    reportes = list(dbReportes.find())
+    reportes = listReporteSerializer(dbReportes.find())
     return reportes
 
 #Traer un reporte por id
@@ -32,11 +34,15 @@ async def getReportes(id: str):
         reporte["_id"] = str(reporte["_id"])
         return reporte
 
+
+#Esto es para crear un reporte pero como utilizamos especificamente los pedidos por el profe no es necesario al menos
+#que quieran utilizarlo ahi esta.
+
 #Crear un reporte
-@reporteRouter.post("/reporte/create", tags=[tag])
-async def createReporte (reporte: Reporte):
-    reporte = reporte.model_dump()
-    dbReportes.insert_one(reporte)
+#@reporteRouter.post("/reporte/create", tags=[tag])
+#async def createReporte (reporte: Reporte):
+    #reporte = reporte.model_dump()
+    #dbReportes.insert_one(reporte)
 
 #Actualizar un reporte
 @reporteRouter.put("/reporte/update/{id}", tags=[tag])
@@ -118,13 +124,24 @@ async def reporte_project_create(idTienda: str):
 
     # Crear el reporte en el formato requerido
     reporte = {
-        "idTienda": idTienda,
-        "TiendaNombre": tienda["nombre"],
-        "inventariosTienda": inventarios_tienda,
-        "stockTotal": stock_total
+        "datos": {
+
+            "idTienda": idTienda,
+            "TiendaNombre": tienda["nombre"],
+            "inventariosTienda": inventarios_tienda,
+            "stockTotal": stock_total
+        }
+
     }
 
     # Guardar el reporte en la base de datos
     dbReportes.insert_one(dict(reporte))
 
-    return {"message": "Reporte creado exitosamente", "reporte": reporte}
+    return reporte
+
+
+@reporteRouter.post("/reporte-proyecto/costo-inventario", tags=["Reportes"])
+
+async def reporteCostoInventario():
+
+    pass
