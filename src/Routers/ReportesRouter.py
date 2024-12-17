@@ -8,6 +8,9 @@ reporteRouter = APIRouter()
 dbReportes = database["reportes"]
 tag = "Reportes-CRUD"
 tag2 = "Reportes - Proyecto"
+db_tiendas = database["tiendas"]
+db_inventarios = database["inventarios"]
+
 
 #Listar todos los reportes
 @reporteRouter.get("/reporte/all", tags=[tag])
@@ -67,9 +70,61 @@ async def softDelete(id: str):
     
     return {"mensaje": "Reporte eliminado."}
 
-@reporteRouter.post("/reporte-proyecto/create", tags=[tag2])
-
-async def reporteProjectCreate(reporte: ReporteStockTienda):
+@reporteRouter.post("/reporte-proyecto/create", tags=["Reportes"])
+async def reporte_project_create(idTienda: str):
     
-    reporte = reporte.model_dump()
-    dbReportes.insert_one(reporte)
+    try:
+        object_id = ObjectId(idTienda)
+    except Exception:
+        raise HTTPException(status_code=404, detail=f"Tienda con ID {idTienda} no encontrada")
+    
+    tienda = db_tiendas.find_one({"_id": object_id})
+    # Lista para almacenar inventarios detallados
+    inventarios_tienda = []
+    stock_total = 0
+
+    # Buscar los inventarios asociados a la tienda
+    print(tienda)
+    for inventario_id in tienda["inventarios"]:
+        print(inventario_id)
+        try:
+        
+            inventario = ObjectId(inventario_id)
+        except Exception:
+            raise HTTPException(status_code=404, detail=f"Inventario con ID {idTienda} no encontrado")
+        
+        
+        inventario = db_inventarios.find_one({"_id": inventario})
+
+        if inventario:
+            print("llega aqui otra vez asalvo de casallas")
+            producto_info = {
+                "idProducto": inventario["productos"]["id"],
+                "numeroSerie": inventario["productos"]["numeroSerie"],
+                "nombreProducto": inventario["productos"]["nombre"],
+                "categoria": inventario["productos"]["categoria"],
+                "stock": inventario["stock"]
+            }
+            print("llega aqui por lo que veo")
+            stock_total += inventario["stock"]
+
+            print("y hasta aqui?")
+            inventarios_tienda.append({
+                "idInventario": str(inventario["_id"]),
+                "producto": producto_info
+            })
+
+            print("paso esta parte")
+
+    # Crear el reporte en el formato requerido
+    reporte = {
+        "idTienda": idTienda,
+        "TiendaNombre": tienda["nombre"],
+        "inventariosTienda": inventarios_tienda,
+        "stockTotal": stock_total
+    }
+
+    # Guardar el reporte en la base de datos
+    dbReportes.insert_one(dict(reporte))
+
+    return {"message": "Reporte creado exitosamente", "reporte": reporte}
