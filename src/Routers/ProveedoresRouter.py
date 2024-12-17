@@ -9,24 +9,20 @@ proveedorRouter = APIRouter()
 db = database["proveedores"]
 tag = "Proveedores"
 
+# Traer todos los proveedores
 @proveedorRouter.get("/proveedor/all", tags=[tag])
 async def getAllProveedor():
-
     proveedor = listproveedoreSerializer(db.find())
     return proveedor
 
-
+# Crear un proveedor
 @proveedorRouter.post("/proveedor/create", tags=[tag])
-
 async def create(proveedor: Proveedores):
+    db.insert_one(proveedor.model_dump())
+    return {"mensaje": "Proveedor creado exitosamente."}
 
-    proveedor.contacto = dict(proveedor.contacto)
-    proveedor.productosSuministrados = [dict(p) for p in proveedor.productosSuministrados]
-    db.insert_one(dict(proveedor))
-
-
+# Traer un proveedor por ID
 @proveedorRouter.get("/proveedor/{id}", tags=[tag])
-
 async def getProveedor(id: str):
     try:
         object_id = ObjectId(id)
@@ -39,9 +35,8 @@ async def getProveedor(id: str):
         proveedor["_id"] = str(proveedor["_id"])
         return proveedor
 
-
+# Actualizar un proveedor
 @proveedorRouter.put("/proveedor/update/{id}", tags=[tag])
-
 async def updateProveedor(id: str, proveedor: Proveedores):
     try:
         object_id = ObjectId(id)
@@ -54,10 +49,8 @@ async def updateProveedor(id: str, proveedor: Proveedores):
     
     return {"mensaje": "proveedor actualizado."}
 
-
-
+# Eliminar un proveedor
 @proveedorRouter.put("/proveedor/soft-delete/{id}", tags=[tag])
-
 async def softProveedorDelete(id: str):
     try:
         object_id = ObjectId(id)
@@ -73,8 +66,8 @@ async def softProveedorDelete(id: str):
     
     return {"mensaje": "proveedor eliminado."}
 
+# Eliminar todos los proveedores
 @proveedorRouter.delete("/proveedor/delete/all", tags=[tag])
-
 async def deleteAllProvedoores():
     resultado = db.delete_many({})
     
