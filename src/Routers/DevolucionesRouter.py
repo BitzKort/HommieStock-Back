@@ -6,6 +6,8 @@ from bson import ObjectId
 devolucionRouter = APIRouter()
 
 db = database["devoluciones"]
+db_inventarios = database["inventarios"]
+db_devoluciones = database["devoluciones"]
 
 #Traer toda la lista de devoluciones
 @devolucionRouter.get("/devolucion/all", tags=["Devoluciones"])
@@ -27,11 +29,31 @@ async def get_devolucion(id: str):
         devolucion["_id"] = str(devolucion["_id"])
         return devolucion
 
-#Crear una devolución
 @devolucionRouter.post("/devolucion/create", tags=["Devoluciones"])
-async def create(devolucion: Devolucion):
-    devolucion.pedidoRe = [dict(p) for p in devolucion.pedidoRe]
-    db.insert_one(dict(devolucion))
+async def create_devolucion(devolucion: Devolucion):
+    # Convertir los objetos pedidos en diccionarios para la base de datos
+    devolucion_dict = devolucion.model_dump()
+    
+    listPedidos = [dict(p) for p in devolucion.pedidoRe]
+    # Iterar sobre los pedidos asociados a la devolución
+    for pedido_item in listPedidos:
+        producto_id = pedido_item["producto"]
+        cantidad_devuelta = pedido_item["cantidad"]
+
+        # Buscar el producto en el inventario
+        inventario_item = db_inventarios.find_one({"productos.id": producto_id})
+        if not inventario_item:
+            raise HTTPException(status_code=404, detail=f"Producto con ID {producto_id} no encontrado en el inventario.")
+
+        # Actualizar el stock del inventario
+        nuevo_stock = inventario_item["stock"] + cantidad_devuelta
+        db_inventarios.update_one(
+            {"_id": inventario_item["_id"]},
+            {"$set": {"stock": nuevo_stock, "fechaUltimaAct": devolucion.fechaDevolucion}}
+        )
+
+    result = db_devoluciones.insert_one(devolucion_dict)
+    return {"message": "Devolución creada y stock actualizado", "devolucion_id": str(result.inserted_id)}
     
 #Actualizar una devolución
 @devolucionRouter.put("/devolucion/update/{id}", tags=["Devoluciones"])

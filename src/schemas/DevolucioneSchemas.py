@@ -5,6 +5,7 @@ def devolucionSerializer(devolucion) -> dict:
         "motivoDevolucion": devolucion["motivoDevolucion"],
         "cantidadDevuelta": devolucion["cantidadDevuelta"],
         "fechaDevolucion": devolucion["fechaDevolucion"],
+        "modoRetorno": devolucion["modoRetorno"],
         "estado": devolucion["estado"]
     }
     

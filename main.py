@@ -8,6 +8,7 @@ from src.Routers.PedidosRouter import pedidoRouter
 from src.Routers.ProveedoresRouter import proveedorRouter
 from src.Routers.InventariosRouter import inventarioRouter
 from src.Routers.ReportesRouter import reporteRouter
+from src.Routers.ComprasRouter import compraRouter
 from src.Repository.mongodb import database, connection, collections
 app = FastAPI()
 app.include_router(productoRouter)
@@ -19,6 +20,7 @@ app.include_router(pedidoRouter)
 app.include_router(proveedorRouter)
 app.include_router(inventarioRouter)
 app.include_router(reporteRouter)
+app.include_router(compraRouter)
 
 
 @app.get('/')
