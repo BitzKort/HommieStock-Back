@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from src.models.ReportesModels import Reporte, ReporteStockTienda
+from src.models.ReportesModels import Reporte
 from src.Repository.mongodb import database
 from bson import ObjectId
 
@@ -12,6 +12,8 @@ tag = "Reportes-CRUD"
 tag2 = "Reportes - Proyecto"
 db_tiendas = database["tiendas"]
 db_inventarios = database["inventarios"]
+db_productos = database["productos"]
+db_proveedores = database["proveedores"]
 
 
 #Listar todos los reportes
@@ -76,8 +78,8 @@ async def softDelete(id: str):
     
     return {"mensaje": "Reporte eliminado."}
 
-@reporteRouter.post("/reporte-proyecto/create", tags=["Reportes"])
-async def reporte_project_create(idTienda: str):
+@reporteRouter.post("/reporte-proyecto/inventario-tienda", tags=["Reportes"])
+async def reporte_inventario_tienda(idTienda: str):
     
     try:
         object_id = ObjectId(idTienda)
@@ -92,7 +94,7 @@ async def reporte_project_create(idTienda: str):
     # Buscar los inventarios asociados a la tienda
     print(tienda)
     for inventario_id in tienda["inventarios"]:
-        print(inventario_id)
+       
         try:
         
             inventario = ObjectId(inventario_id)
@@ -103,7 +105,7 @@ async def reporte_project_create(idTienda: str):
         inventario = db_inventarios.find_one({"_id": inventario})
 
         if inventario:
-            print("llega aqui otra vez asalvo de casallas")
+           
             producto_info = {
                 "idProducto": inventario["productos"]["id"],
                 "numeroSerie": inventario["productos"]["numeroSerie"],
@@ -111,16 +113,14 @@ async def reporte_project_create(idTienda: str):
                 "categoria": inventario["productos"]["categoria"],
                 "stock": inventario["stock"]
             }
-            print("llega aqui por lo que veo")
+           
             stock_total += inventario["stock"]
 
-            print("y hasta aqui?")
             inventarios_tienda.append({
                 "idInventario": str(inventario["_id"]),
                 "producto": producto_info
             })
 
-            print("paso esta parte")
 
     # Crear el reporte en el formato requerido
     reporte = {
@@ -142,6 +142,162 @@ async def reporte_project_create(idTienda: str):
 
 @reporteRouter.post("/reporte-proyecto/costo-inventario", tags=["Reportes"])
 
-async def reporteCostoInventario():
+async def reporte_costo_inventario(idInventario: str):
 
-    pass
+    try:
+        object_id = ObjectId(idInventario)
+    except Exception:
+        raise HTTPException(status_code=404, detail=f"Inventario con ID {idInventario} no encontrado")
+    
+    inventario = db_inventarios.find_one({"_id": object_id})
+
+    
+    stockInventario = inventario["stock"]
+
+
+    ReportenombreProducto = inventario["productos"]["nombre"]
+    ReporteIdProducto = inventario["productos"]["id"]
+
+
+    try:
+        object_idProducto = ObjectId(ReporteIdProducto)
+    except Exception:
+        raise HTTPException(status_code=404, detail=f"Producto con ID {object_idProducto} no encontrado")
+    
+    producto =db_productos.find_one({"_id": object_idProducto})
+
+
+
+
+    ReporteIdProveedor  = producto["proveedores"][0]["id"]
+    ReporteNombreProveedor  = producto["proveedores"][0]["nombre"]
+    ReporteCostoProveedor = producto["proveedores"][0]["precioCompra"]
+
+    ReporteCostoTotal = ReporteCostoProveedor*stockInventario
+
+
+    ReporteCostoInventario = {
+        "datos": {
+            "idInventario": idInventario,
+            "stock": stockInventario,
+            "idProducto": ReporteIdProducto,
+            "productoNombre": ReportenombreProducto,
+            "idProveedor":ReporteIdProveedor,
+            "proveedorNombre":ReporteNombreProveedor,
+            "costoCompra": ReporteCostoProveedor,
+            "costoTotal": ReporteCostoTotal
+        }
+
+    }
+
+    dbReportes.insert_one(dict(ReporteCostoInventario))
+
+    return ReporteCostoInventario
+
+@reporteRouter.post("/reporte-proyecto/proveedor-productos", tags=["Reportes"])
+
+async def reporte_proveedor_productos(idProveedor:str):
+
+    try:
+        objectIdProveedor = ObjectId(idProveedor)
+    except Exception:
+        raise HTTPException(status_code=404, detail=f"Proveedor con ID {objectIdProveedor} no encontrado")
+    
+    proveedor =db_proveedores.find_one({"_id": objectIdProveedor})
+
+    listProveedores = proveedor["productosSuministrados"]
+
+    listReporteProductos =[]
+
+
+    for producto in listProveedores:
+
+        reportePRoducto = {
+
+                "idProducto": producto["id"],
+                "nombreProducto": producto["nombre"],
+                "costoCompra": producto["precioCompra"]
+
+        }
+        listReporteProductos.append(reportePRoducto)
+    
+    ReportePRoveedorProductos = {
+        "datos": {
+            "idProveedor": idProveedor,
+            "nombreProveedor": proveedor["nombre"],
+            "listaProductos": listReporteProductos
+        }
+    }
+    
+    dbReportes.insert_one(dict(ReportePRoveedorProductos))
+
+    return ReportePRoveedorProductos
+
+
+
+@reporteRouter.post("/reporte-proyecto/productos-diferentes-tiendas", tags=["Reportes"])
+
+async def Reporte_productos_diferentes_tiendas(idProducto: str):
+        
+        # Paso 1: Buscar los inventarios que contienen el producto específico
+        inventarios_cursor = db_inventarios.find({"productos.id": idProducto})
+        inventarios = [inventario for inventario in inventarios_cursor]
+        
+        if not inventarios:
+            return {"mensaje": "No se encontraron inventarios con el producto especificado", "idProducto": idProducto}
+        
+        # Paso 2: Crear un diccionario para mapear las tiendas con los detalles del producto
+        reporte = []
+
+        
+        for inventario in inventarios:
+ 
+            tienda_id = inventario["ubicacionTienda"]
+            stock = inventario["stock"]
+            fechaUltimaAct = inventario["fechaUltimaAct"]
+
+            try:
+
+                objectIdTienda = ObjectId(tienda_id)
+            
+            except Exception:
+                
+                raise HTTPException(status_code=404, detail=f"Tienda con ID {objectIdTienda} no encontrada")            
+            # Obtener detalles de la tienda
+            tienda =  db_tiendas.find_one({"_id": objectIdTienda})
+
+                        
+            if tienda:
+
+
+                # Crear una entrada con los datos relevantes
+                reporteTienda = {
+                    "tienda": {
+                        "id": tienda_id,
+                        "nombre": tienda["nombre"],
+                    },
+                    "producto": {
+                        "id": idProducto,
+                        "nombre": inventario["productos"]["nombre"],
+                        "stock": stock,
+                        "fechaUltimaActualizacion": fechaUltimaAct
+                    }
+                }
+
+                reporte.append(reporteTienda)
+        
+        reporteProductoTiendas = {
+
+            "datos": reporte
+        }
+
+        dbReportes.insert_one(dict(reporteProductoTiendas))
+
+
+        return reporteProductoTiendas
+
+
+
+
+
+
