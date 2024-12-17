@@ -18,4 +18,5 @@ class Pedido(BaseModel):
     precioTotal: float
     estado: str
     fechaPedido: str
-
+    metodoEntrega: str  # "entrega" o "recogida"
+    fechaEntregaEstimada: str
