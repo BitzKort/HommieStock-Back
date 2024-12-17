@@ -7,6 +7,8 @@ from bson import ObjectId
 inventarioRouter = APIRouter()
 
 dbInventarios = database["inventarios"]
+dbTiendas = database["tiendas"]
+
 tag = "Inventarios"
 
 #Listar todos los inventarios
@@ -46,9 +48,19 @@ async def getInventarioByTienda (id: str):
 #Crear un inventario
 @inventarioRouter.post("/inventario/create", tags=[tag])
 async def createInventario (inventario: Inventario):
+    
     inventario = inventario.model_dump()
-    print(inventario)
-    dbInventarios.insert_one(inventario)
+    IdTienda = inventario.pop("ubicacionTienda")
+    
+    resultado = dbInventarios.insert_one(inventario)
+    IdInventario = resultado.inserted_id
+    
+    dbTiendas.update_one(
+        {"_id": ObjectId(IdTienda)},
+        {"$push": {"inventarios": str(IdInventario)}}
+        )
+    
+    return {"mensaje": "Inventario creado exitosamente", "inventario_id": str(IdInventario)}
 
 #Actualizar un inventario
 @inventarioRouter.put("/inventario/update/{id}", tags=[tag])
