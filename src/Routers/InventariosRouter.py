@@ -28,6 +28,20 @@ async def getInventarios(id: str):
     if inventario is not None:
         inventario["_id"] = str(inventario["_id"])
         return inventario
+    
+#Listar inventarios por id de las tiendas
+@inventarioRouter.get("/inventario/tienda/{id}", tags=[tag])
+async def getInventarioByTienda (id: str):
+    try:
+        object_id = ObjectId(id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="ID inválido.")
+    
+    inventarios = dbInventarios.find({"ubicacionTienda": id})
+    
+    inventarios = [Inventario(**documento) for documento in inventarios]
+
+    return inventarios 
 
 #Crear un inventario
 @inventarioRouter.post("/inventario/create", tags=[tag])
