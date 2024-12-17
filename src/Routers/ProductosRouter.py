@@ -4,6 +4,7 @@ from src.Repository.mongodb import database
 from src.schemas.ProductoSchemas import listProductoSerializer
 from bson import ObjectId
 
+
 productoRouter = APIRouter()
 
 db = database["productos"]
