@@ -88,12 +88,11 @@ async def updateProveedor(id: str, proveedor: Proveedores):
     except Exception:
         raise HTTPException(status_code=400, detail="ID inválido.")
     
-    # Convertir los datos del proveedor a diccionario
-    proveedor.contacto = dict(proveedor.contacto)
-    proveedor.productosSuministrados = [dict(p) for p in proveedor.productosSuministrados]
-    
+    # Convertir el modelo Pydantic a diccionario (excluyendo valores nulos)
+    proveedor_dict = proveedor.dict(by_alias=True, exclude_none=True)
+
     # Actualizar el proveedor en MongoDB
-    result = db.update_one({"_id": object_id}, {"$set": dict(proveedor)})
+    result = db.update_one({"_id": object_id}, {"$set": proveedor_dict})
 
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Proveedor no encontrado.")
@@ -103,6 +102,7 @@ async def updateProveedor(id: str, proveedor: Proveedores):
     redis.json().delete("proveedores", "$")
     
     return {"mensaje": "Proveedor actualizado correctamente."}
+
 
 
 # Eliminar un proveedor
