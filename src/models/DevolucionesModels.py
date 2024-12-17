@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 class Pedido(BaseModel):
-    _id: str
+    id: str
     producto: str
     cantidad: int
     estadoEnvio: str
