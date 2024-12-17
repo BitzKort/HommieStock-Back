@@ -1,12 +1,13 @@
 from fastapi import APIRouter, HTTPException
-from src.models.ReportesModels import Reporte
+from src.models.ReportesModels import Reporte, ReporteStockTienda
 from src.Repository.mongodb import database
 from bson import ObjectId
 
 reporteRouter = APIRouter()
 
 dbReportes = database["reportes"]
-tag = "Reportes"
+tag = "Reportes-CRUD"
+tag2 = "Reportes - Proyecto"
 
 #Listar todos los reportes
 @reporteRouter.get("/reporte/all", tags=[tag])
@@ -65,3 +66,10 @@ async def softDelete(id: str):
     dbReportes.update_one({"_id": object_id}, {"$set": {"estado": 0}})
     
     return {"mensaje": "Reporte eliminado."}
+
+@reporteRouter.post("/reporte-proyecto/create", tags=[tag2])
+
+async def reporteProjectCreate(reporte: ReporteStockTienda):
+    
+    reporte = reporte.model_dump()
+    dbReportes.insert_one(reporte)
